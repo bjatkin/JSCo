@@ -1,7 +1,4 @@
-/*
-  let data = Request("test_api"); //Request is of type yieldable
-  while(data.notReady) {yield data;}
-  */
+// First idea of what the api for this project might look like
 
  let Threads = {
     threads: [],
@@ -10,6 +7,8 @@
     },
     run: function() {
       remove = [];
+
+      // Run each generator function
       Threads.threads.forEach((t,i) => {
         let status = t.next();
         if (status.done) {
@@ -17,34 +16,40 @@
           remove.push(i);
         }
       });
+
       //remove the thread from the thread pool
       remove.forEach(i => Threads.threads.splice(i, 1));
+
+      // Set a timeout to re-check the thread pool
       if (Threads.threads.length > 0){
         setTimeout(Threads.run());
       }
     },
   }
   
-  Threads.new(function* (){
+  // Add two example threads to the thread runner
+  Threads.new(
+    function* (){
     console.log("test1");
     yield;
     console.log("test2");
     return true;
-  },
-  function* (){
-    console.log("test3");
-    yield;
-    console.log("test4");
-    Threads.new(function* () {
-      console.log("test5");
+    },
+    function* (){
+      console.log("test3");
       yield;
-      console.log("test6");
+      console.log("test4");
+      Threads.new(function* () {
+        console.log("test5");
+        yield;
+        console.log("test6");
+        return true;
+      });
+      yield;
+      yield;
       return true;
     });
-    yield;
-    yield;
-    return true;
-  });
+
   Threads.run();
 
   console.log("main thread");

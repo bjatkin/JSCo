@@ -1,3 +1,4 @@
+// Make promises and yieldable's work together
 let nextYieldable = 0;
 function yieldable(promise){
     let id = nextYieldable++;
@@ -11,10 +12,12 @@ function yieldable(promise){
     return promise;
 }
 
+// Simple thread sleep using a yieldable promise
 function sleep(ms) {
     return yieldable(new Promise(resolve => setTimeout(resolve, ms)));
 }
 
+// Wrap generators in a yieldable co object
 function co(gen){
     let next = gen.next();
 
@@ -31,6 +34,7 @@ function co(gen){
     return yieldable(ret);
 }
 
+// Simplify the co object
 let nextCo = 0;
 let CO = {
     routines: {},

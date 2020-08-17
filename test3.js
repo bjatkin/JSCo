@@ -1,3 +1,5 @@
+// Introduce a yieldable object to make co-routine status easier to read
+
 function yieldable(y) {
     this.wait = y;
     this.waited = y;
@@ -7,6 +9,8 @@ function yieldable(y) {
         this.done = true;
     }
 }
+
+// Basic request object with co-routine status information
 
 function request(url) {
     this.yieldable = new yieldable(true);
@@ -24,6 +28,7 @@ function request(url) {
     });
 }
 
+// Improved co object to run/ check the co-routines
 let CO = {
     routines: [],
     running: false,
@@ -37,6 +42,8 @@ let CO = {
         CO.running = true;
         let i = 0;
         r = CO.routines;
+
+        // Run/ Check all the co-routines
         while(i < r.length){
             let y = r[i].yieldable;
             if(y != null && y.wait){
@@ -53,6 +60,8 @@ let CO = {
             }
             i++;
         }
+
+        // Set timeout to check the co-routines again
         if (r.length > 0) {
             setTimeout(CO.run, 5);
             return;

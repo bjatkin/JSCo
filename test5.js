@@ -1,3 +1,5 @@
+// Use co.js to build an example of the final api
+
 function sleep(ms) {
     return yieldable(new Promise(resolve => setTimeout(resolve, ms)));
 }
@@ -13,13 +15,13 @@ function test() {
         })());
 
         co((function* () {
-            let a = co((function* () {
+            co((function* () {
                 console.log('2: test1('+(Date.now()-start)+')');
                 yield sleep(100);
                 console.log('2: test2('+(Date.now()-start)+')');
             })());
 
-            let b = co((function* () {
+            co((function* () {
                 yield sleep(500);
                 console.log('3: test3('+(Date.now()-start)+')');
             })());

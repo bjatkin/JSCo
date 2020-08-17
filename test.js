@@ -1,3 +1,4 @@
+// Quick to see how pseudo co-routines can work with generators
 function* test(url) {
     let d = false;
     let ret = {};

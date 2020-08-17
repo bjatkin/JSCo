@@ -1,3 +1,4 @@
+// The same code as js5.js but it doesn't use the co-routine code making it much slower
 function sleep(ms) {
     return yieldable(new Promise(resolve => setTimeout(resolve, ms)));
 }
